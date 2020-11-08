@@ -23,6 +23,16 @@ def test_CanCalculateTotalDiscount(invoice, products):
 
 def test_CanCalculateTotalPurePrice(invoice, products):
     invoice.totalPurePrice(products)
-    assert invoice.totalPurePrice(products) == 69.38
+    assert invoice.totalPurePrice(products) == 76.46
+
+# The shipping is 5% of the total impure cost (pureTotal * 0.05)
+def test_CanCalculateTotalShipping(invoice, products):
+    invoice.totalShipping(products)
+    assert invoice.totalShipping(products) == 3.75
+
+# The taxes cost which is 4.8 of the total pure cost (impureTotal - discount) * 0.048
+def test_CanCaluculateTotalTaxes(invoice, products):
+    invoice.totalTaxes(products)
+    assert invoice.totalTaxes(products) == 3.33
 
 

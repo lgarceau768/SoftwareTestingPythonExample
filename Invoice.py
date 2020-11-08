@@ -24,8 +24,33 @@ class Invoice:
         self.total_discount = total_discount
         return total_discount
 
+    # Get Shipping cost (5% of order)
+    def totalShipping(self, products):
+        total_cost = 0
+
+        for k, v in products.items():
+            total_cost += (int(v['qnt']) * float(v['unit_price']))
+
+        total_shipping = round(total_cost * 0.05, 2)
+        self.total_shipping = total_shipping
+        return total_shipping
+
+    # Get Taxes Cost (4.8% taxes in NC)
+    def totalTaxes(self, products):
+        total_cost = 0
+
+        for k, v in products.items():
+            total_cost += (int(v['qnt']) * float(v['unit_price']))
+
+        total_discount = self.totalDiscount(products)
+        total_cost = (total_cost - total_discount)
+        total_taxes = round(total_cost * 0.048, 2)
+        self.total_taxes = total_taxes
+        return total_taxes
+
+
     def totalPurePrice(self, products):
-        total_pure_price = self.totalImpurePrice(products) - self.totalDiscount(products)
+        total_pure_price = self.totalImpurePrice(products) - self.totalDiscount(products) + self.totalTaxes(products) + self.totalShipping(products)
         return total_pure_price
 
     def inputAnswer(self, input_value):
